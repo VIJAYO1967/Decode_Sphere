@@ -102,31 +102,25 @@
     </section>
 
     <script>
-        function caesarCipherDecrypt(ciphertext, shift) {
-            let decryptedText = "";
+        function caesarCipherDecoder(ciphertext, shift) {
+    let decodedText = "";
 
-            for (let i = 0; i < ciphertext.length; i++) {
-                let char = ciphertext[i];
-                if (char.match(/[a-zA-Z]/)) {
-                    let isUpperCase = char === char.toUpperCase();
-                    let charCode = char.charCodeAt(0) + shift;
-                    if (isUpperCase) {
-                        if (charCode > 'Z'.charCodeAt(0)) {
-                            charCode -= 26;
-                        }
-                    } else {
-                        if (charCode > 'z'.charCodeAt(0)) {
-                            charCode -= 26;
-                        }
-                    }
-                    decryptedText += String.fromCharCode(charCode);
-                } else {
-                    decryptedText += char;
-                }
-            }
-
-            return decryptedText;
+    for (let i = 0; i < ciphertext.length; i++) {
+        let char = ciphertext[i];
+        if (char.match(/[a-zA-Z]/)) {
+            let isUpperCase = char === char.toUpperCase();
+            let charCode = char.charCodeAt(0);
+            let baseCharCode = isUpperCase ? 'A'.charCodeAt(0) : 'a'.charCodeAt(0);
+            // Apply shift with proper wrapping
+            charCode = (charCode - baseCharCode - shift + 26) % 26 + baseCharCode;
+            decodedText += String.fromCharCode(charCode);
+        } else {
+            decodedText += char;
         }
+    }
+
+    return decodedText;
+}
 
         function decrypt() {
             let ciphertext = document.getElementById("ciphertext").value;
